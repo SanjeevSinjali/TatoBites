@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.signup-container {
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 500px;
+  max-width: 90%;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.title {
+  color: #f44336;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+form input:focus {
+  border-color: #f44336;
+}
+
+/* Error states */
+form input.error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 12px;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  padding-left: 12px;
+}
+
+/* Password strength indicator */
+.password-strength {
+  font-size: 12px;
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: -10px;
+  padding-left: 12px;
+}
+
+.password-strength .weak {
+  color: #f44336;
+}
+
+.password-strength .medium {
+  color: #ff9800;
+}
+
+.password-strength .strong {
+  color: #4caf50;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #e53935;
+  color: white;
+  font-size: 15px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+button:hover:not(:disabled) {
+  background-color: #d32f2f;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #f44336;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .signup-container {
+    width: 95%;
+    padding: 20px 15px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+}
