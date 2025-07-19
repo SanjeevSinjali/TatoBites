@@ -37,7 +37,7 @@ const OrderTracking = ({ user, onLogout }) => {
       rating: 5
     },
     {
-      id: '#ORD-12343',
+      id: '#ORD-1234',
       restaurant: 'Burger Junction',
       date: 'Dec 15, 7:45 PM',
       items: ['Classic Burger', 'French Fries', 'Coke'],
