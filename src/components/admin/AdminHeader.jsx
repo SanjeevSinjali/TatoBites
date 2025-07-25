@@ -1,8 +1,18 @@
 import React, { useState, startTransition } from 'react';
 import { Bell, User, LogOut, Settings, Shield } from 'lucide-react';
+import { useAuth } from '../../lib/auth';
+import { useNavigate } from 'react-router-dom';
 
-const AdminHeader = ({ user, onLogout }) => {
+const AdminHeader = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const onLogout = async () => {
+    await logout();
+    navigate("/login")
+  }
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -61,7 +71,7 @@ const AdminHeader = ({ user, onLogout }) => {
                   </button>
                   <hr className="my-2" />
                   <button
-                    onClick={onLogout}
+                    onClick={() => onLogout()}
                     className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:bg-red-50 w-full text-left"
                   >
                     <LogOut className="w-4 h-4" />
