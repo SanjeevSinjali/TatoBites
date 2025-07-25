@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Clock, CheckCircle, Truck, MapPin, Phone, Star } from 'lucide-react';
-import Header from './Header';
 
 const OrderTracking = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('current');
@@ -11,12 +10,12 @@ const OrderTracking = ({ user, onLogout }) => {
     items: ['Butter Chicken x2', 'Chicken Biryani x1'],
     total: '₹1040',
     status: 'preparing',
-    estimatedTime: '25 mins',
-    deliveryPartner: {
-      name: 'Rahul Kumar',
-      phone: '+91 98765 43210',
-      rating: 4.8
-    },
+    // estimatedTime: '25 mins',
+    // deliveryPartner: {
+    //   name: 'Rahul Kumar',
+    //   phone: '+91 98765 43210',
+    //   rating: 4.8
+    // },
     timeline: [
       { status: 'confirmed', time: '2:30 PM', completed: true },
       { status: 'preparing', time: '2:35 PM', completed: true },
@@ -60,7 +59,7 @@ const OrderTracking = ({ user, onLogout }) => {
     if (completed) {
       return <CheckCircle className="w-5 h-5 text-green-500" />;
     }
-    
+
     switch (status) {
       case 'preparing':
         return <Clock className="w-5 h-5 text-orange-500" />;
@@ -91,8 +90,7 @@ const OrderTracking = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">My Orders</h1>
 
@@ -100,21 +98,19 @@ const OrderTracking = ({ user, onLogout }) => {
         <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8">
           <button
             onClick={() => setActiveTab('current')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'current'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'current'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             Current Order
           </button>
           <button
             onClick={() => setActiveTab('history')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'history'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'history'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             Order History
           </button>
@@ -127,7 +123,6 @@ const OrderTracking = ({ user, onLogout }) => {
               <div className="p-6 border-b border-gray-200">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">{currentOrder.restaurant}</h2>
                     <p className="text-gray-600">{currentOrder.id}</p>
                     <p className="text-sm text-gray-500 mt-1">
                       {currentOrder.items.join(', ')}
@@ -161,32 +156,6 @@ const OrderTracking = ({ user, onLogout }) => {
               </div>
             </div>
 
-            {/* Delivery Partner */}
-            <div className="bg-white rounded-xl shadow-sm">
-              <div className="p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Delivery Partner</h3>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                      <span className="text-red-600 font-bold">
-                        {currentOrder.deliveryPartner.name.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="font-medium text-gray-900">{currentOrder.deliveryPartner.name}</p>
-                      <div className="flex items-center space-x-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm text-gray-600">{currentOrder.deliveryPartner.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
-                    <Phone className="w-4 h-4" />
-                    <span>Call</span>
-                  </button>
-                </div>
-              </div>
-            </div>
 
             {/* Delivery Address */}
             <div className="bg-white rounded-xl shadow-sm">
@@ -219,9 +188,9 @@ const OrderTracking = ({ user, onLogout }) => {
                     </span>
                   </div>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm mb-4">{order.items.join(', ')}</p>
-                
+
                 <div className="flex justify-between items-center">
                   {order.rating > 0 ? (
                     <div className="flex items-center space-x-1">
@@ -230,9 +199,8 @@ const OrderTracking = ({ user, onLogout }) => {
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-4 h-4 ${
-                              i < order.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                            }`}
+                            className={`w-4 h-4 ${i < order.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                              }`}
                           />
                         ))}
                       </div>
@@ -242,7 +210,7 @@ const OrderTracking = ({ user, onLogout }) => {
                       Rate Order
                     </button>
                   )}
-                  
+
                   <div className="space-x-3">
                     <button className="text-red-600 hover:text-red-700 text-sm font-medium">
                       Reorder
