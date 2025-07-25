@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "order_id": 1,
+    "menu_item_id": 1,
+    "quantity": 2,
+    "price_each": 160,
+    "total_price": 320
+  },
+  {
+    "id": 2,
+    "order_id": 2,
+    "menu_item_id": 2,
+    "quantity": 2,
+    "price_each": 125,
+    "total_price": 250
+  },
+  {
+    "id": 3,
+    "order_id": 3,
+    "menu_item_id": 3,
+    "quantity": 1,
+    "price_each": 180,
+    "total_price": 180
+  },
+  {
+    "id": 4,
+    "order_id": 4,
+    "menu_item_id": 4,
+    "quantity": 2,
+    "price_each": 200,
+    "total_price": 400
+  },
+  {
+    "id": 5,
+    "order_id": 5,
+    "menu_item_id": 5,
+    "quantity": 1,
+    "price_each": 220,
+    "total_price": 220
+  }
+]
