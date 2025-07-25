@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, User, Shield } from 'lucide-react';
+import { useAuth } from '../../lib/auth';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const [loginType, setLoginType] = useState('customer');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock login - in real app, this would call an API
-    const userData = {
-      id: 1,
-      name: loginType === 'admin' ? 'Admin User' : 'John Doe',
-      email: formData.email,
-      phone: '+1234567890'
-    };
-    onLogin(userData, loginType);
+    try {
+      await login(formData);
+    } catch (err) {
+      console.error(`Error occured at login: ${err.response?.data.error}`)
+    }
   };
 
   const handleChange = (e) => {
@@ -43,9 +41,9 @@ const Login = ({ onLogin }) => {
               type="email"
               name="email"
               placeholder="Email or Phone"
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
               required
             />
           </div>
@@ -56,39 +54,37 @@ const Login = ({ onLogin }) => {
               type="password"
               name="password"
               placeholder="Password"
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
               value={formData.password}
               onChange={handleChange}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
               required
             />
           </div>
 
-          <div className="flex justify-center space-x-4 mb-6">
-            <button
-              type="button"
-              onClick={() => setLoginType('customer')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                loginType === 'customer'
-                  ? 'bg-red-100 text-red-600 border-2 border-red-200'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              <User className="w-4 h-4" />
-              <span>Customer</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setLoginType('admin')}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                loginType === 'admin'
-                  ? 'bg-red-100 text-red-600 border-2 border-red-200'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              <Shield className="w-4 h-4" />
-              <span>Admin</span>
-            </button>
-          </div>
+          {/* <div className="flex justify-center space-x-4 mb-6"> */}
+          {/*   <button */}
+          {/*     type="button" */}
+          {/*     onClick={() => setLoginType(USER_TYPES.CUSTOMER)} */}
+          {/*     className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${loginType === 'customer' */}
+          {/*       ? 'bg-red-100 text-red-600 border-2 border-red-200' */}
+          {/*       : 'bg-gray-100 text-gray-600 hover:bg-gray-200' */}
+          {/*       }`} */}
+          {/*   > */}
+          {/*     <User className="w-4 h-4" /> */}
+          {/*     <span>Customer</span> */}
+          {/*   </button> */}
+          {/*   <button */}
+          {/*     type="button" */}
+          {/*     onClick={() => setLoginType(USER_TYPES.ADMIN)} */}
+          {/*     className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 ${loginType === 'admin' */}
+          {/*       ? 'bg-red-100 text-red-600 border-2 border-red-200' */}
+          {/*       : 'bg-gray-100 text-gray-600 hover:bg-gray-200' */}
+          {/*       }`} */}
+          {/*   > */}
+          {/*     <Shield className="w-4 h-4" /> */}
+          {/*     <span>Admin</span> */}
+          {/*   </button> */}
+          {/* </div> */}
 
           <button
             type="submit"

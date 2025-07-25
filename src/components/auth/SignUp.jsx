@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../../lib/auth';
 
-const SignUp = ({ onSignUp }) => {
+const SignUp = () => {
+  const { register } = useAuth()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     password: '',
@@ -19,14 +22,13 @@ const SignUp = ({ onSignUp }) => {
       alert('Passwords do not match');
       return;
     }
-    // Mock signup - in real app, this would call an API
-    const userData = {
-      id: 1,
-      name: formData.fullName,
-      email: formData.email,
-      phone: formData.phone
-    };
-    onSignUp(userData, 'customer');
+    try {
+      register(formData)
+      navigate("/login")
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const handleChange = (e) => {
@@ -49,9 +51,9 @@ const SignUp = ({ onSignUp }) => {
             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              name="fullName"
-              placeholder="Full Name"
-              value={formData.fullName}
+              name="name"
+              placeholder="Name"
+              value={formData.name}
               onChange={handleChange}
               className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200"
               required
