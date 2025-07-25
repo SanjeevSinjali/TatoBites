@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Star, Clock, MapPin, Heart, Plus, Minus, ShoppingCart } from 'lucide-react';
-import Header from './Header';
+import { api } from '../../lib/api-client';
 
 const RestaurantDetail = ({ user, onLogout }) => {
   const { id } = useParams();
   const [cartItems, setCartItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const response = await api.get('/api/v1/menu');
+        setMenuItems(response.data.data);
+      } catch (err) {
+        console.error('Error fetching menu:', err);
+        setError('Failed to load menu');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
   // Mock restaurant data
   const restaurant = {
     id: 1,
@@ -32,77 +48,8 @@ const RestaurantDetail = ({ user, onLogout }) => {
     { id: 'beverages', name: 'Beverages' }
   ];
 
-  const menuItems = [
-    {
-      id: 1,
-      name: "Butter Chicken",
-      description: "Tender chicken in rich tomato and butter gravy",
-      price: 320,
-      image: "https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'mains',
-      rating: 4.6,
-      isVeg: false,
-      bestseller: true
-    },
-    {
-      id: 2,
-      name: "Paneer Tikka Masala",
-      description: "Grilled cottage cheese in spicy tomato gravy",
-      price: 280,
-      image: "https://images.pexels.com/photos/2474658/pexels-photo-2474658.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'mains',
-      rating: 4.4,
-      isVeg: true,
-      bestseller: false
-    },
-    {
-      id: 3,
-      name: "Chicken Biryani",
-      description: "Fragrant basmati rice with tender chicken and aromatic spices",
-      price: 380,
-      image: "https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'rice',
-      rating: 4.7,
-      isVeg: false,
-      bestseller: true
-    },
-    {
-      id: 4,
-      name: "Samosa (2 pcs)",
-      description: "Crispy pastry filled with spiced potatoes and peas",
-      price: 80,
-      image: "https://images.pexels.com/photos/14477/pexels-photo-14477.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'starters',
-      rating: 4.2,
-      isVeg: true,
-      bestseller: false
-    },
-    {
-      id: 5,
-      name: "Gulab Jamun (2 pcs)",
-      description: "Soft milk dumplings in sweet syrup",
-      price: 120,
-      image: "https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'desserts',
-      rating: 4.5,
-      isVeg: true,
-      bestseller: false
-    },
-    {
-      id: 6,
-      name: "Mango Lassi",
-      description: "Refreshing yogurt drink with mango",
-      price: 90,
-      image: "https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg?auto=compress&cs=tinysrgb&w=400",
-      category: 'beverages',
-      rating: 4.3,
-      isVeg: true,
-      bestseller: false
-    }
-  ];
-
-  const filteredItems = selectedCategory === 'all' 
-    ? menuItems 
+  const filteredItems = selectedCategory === 'all'
+    ? menuItems
     : menuItems.filter(item => item.category === selectedCategory);
 
   const addToCart = (item) => {
@@ -142,8 +89,7 @@ const RestaurantDetail = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={cartItems} />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <Link
@@ -171,11 +117,11 @@ const RestaurantDetail = ({ user, onLogout }) => {
               {restaurant.offer}
             </div>
           </div>
-          
+
           <div className="p-6">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{restaurant.name}</h1>
             <p className="text-gray-600 mb-4">{restaurant.description}</p>
-            
+
             <div className="flex items-center space-x-6 text-sm">
               <div className="flex items-center space-x-1">
                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -204,11 +150,10 @@ const RestaurantDetail = ({ user, onLogout }) => {
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                      selectedCategory === category.id
-                        ? 'bg-red-100 text-red-600 font-medium'
-                        : 'text-gray-700 hover:bg-gray-100'
-                    }`}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${selectedCategory === category.id
+                      ? 'bg-red-100 text-red-600 font-medium'
+                      : 'text-gray-700 hover:bg-gray-100'
+                      }`}
                   >
                     {category.name}
                   </button>
@@ -237,19 +182,19 @@ const RestaurantDetail = ({ user, onLogout }) => {
                         <span className="text-sm font-medium">{item.rating}</span>
                       </div>
                     </div>
-                    
+
                     <h3 className="font-bold text-lg text-gray-900 mb-2">{item.name}</h3>
                     <p className="text-gray-600 text-sm mb-4">{item.description}</p>
                     <p className="text-xl font-bold text-gray-900">₹{item.price}</p>
                   </div>
-                  
+
                   <div className="ml-6 flex flex-col items-center">
                     <img
                       src={item.image}
                       alt={item.name}
                       className="w-24 h-24 object-cover rounded-lg mb-4"
                     />
-                    
+
                     {getItemQuantity(item.id) === 0 ? (
                       <button
                         onClick={() => addToCart(item)}
