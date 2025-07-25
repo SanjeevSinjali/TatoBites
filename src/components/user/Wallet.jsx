@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { 
-  Wallet as WalletIcon, 
-  Plus, 
-  ArrowUpRight, 
-  ArrowDownLeft, 
-  Gift, 
+import {
+  Wallet as WalletIcon,
+  Plus,
+  ArrowUpRight,
+  ArrowDownLeft,
+  Gift,
   CreditCard,
   Smartphone,
   Building,
@@ -13,7 +13,6 @@ import {
   Award,
   RefreshCw
 } from 'lucide-react';
-import Header from './Header';
 
 const Wallet = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('balance');
@@ -130,8 +129,7 @@ const Wallet = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -145,7 +143,7 @@ const Wallet = ({ user, onLogout }) => {
           <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-xl p-6 text-white">
             <div className="flex items-center justify-between mb-4">
               <WalletIcon className="w-8 h-8" />
-              <button 
+              <button
                 onClick={() => setShowAddMoney(true)}
                 className="bg-white/20 hover:bg-white/30 p-2 rounded-lg transition-colors"
               >
