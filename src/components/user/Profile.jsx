@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { User, Mail, Phone, MapPin, Edit, Save, X } from 'lucide-react';
-import Header from './Header';
 
 const Profile = ({ user, onLogout }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -34,8 +33,7 @@ const Profile = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-xl shadow-sm">
           <div className="p-6 border-b border-gray-200">
@@ -182,7 +180,7 @@ const Profile = ({ user, onLogout }) => {
 
             <div className="mt-8 pt-8 border-t border-gray-200">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Account Statistics</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
                 <div className="bg-red-50 p-4 rounded-lg">
                   <p className="text-2xl font-bold text-red-600">47</p>
                   <p className="text-sm text-gray-600">Total Orders</p>
@@ -190,10 +188,6 @@ const Profile = ({ user, onLogout }) => {
                 <div className="bg-green-50 p-4 rounded-lg">
                   <p className="text-2xl font-bold text-green-600">₹12,450</p>
                   <p className="text-sm text-gray-600">Total Spent</p>
-                </div>
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <p className="text-2xl font-bold text-blue-600">8</p>
-                  <p className="text-sm text-gray-600">Favorite Restaurants</p>
                 </div>
               </div>
             </div>
