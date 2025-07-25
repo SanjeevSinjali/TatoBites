@@ -2,26 +2,26 @@ const ErrorResponse = require('../utils/errorResponse');
 
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
-
   error.message = err.message;
 
-  console.log(err);
+  console.error(err);
 
-  if (err.name === 'CastError') {
-    const message = `Resource not found`;
-    error = new ErrorResponse(message, 404);
+  if (err.name === 'SequelizeValidationError') {
+    const messages = err.errors.map(e => e.message);
+    error = new ErrorResponse(messages, 400);
   }
 
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    const message = 'Duplicate field value entered';
-    error = new ErrorResponse(message, 400);
+  else if (err.name === 'SequelizeUniqueConstraintError') {
+    const messages = err.errors.map(e => e.message);
+    error = new ErrorResponse(messages, 400);
   }
 
-  // Mongoose validatoin error
-  if (err.name === 'ValidationError') {
-    const message = Object.values(err.errors).map((val) => val.message);
-    error = new ErrorResponse(message, 400);
+  else if (err.name === 'SequelizeForeignKeyConstraintError') {
+    error = new ErrorResponse('Foreign key constraint failed', 400);
+  }
+
+  else if (err.name === 'SequelizeDatabaseError') {
+    error = new ErrorResponse('Database error occurred', 500);
   }
 
   res.status(error.statusCode || 500).json({
