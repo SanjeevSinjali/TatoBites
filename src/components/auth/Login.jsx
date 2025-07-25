@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, User, Shield } from 'lucide-react';
 import { useAuth } from '../../lib/auth';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const { login } = useAuth()
@@ -15,6 +16,7 @@ const Login = () => {
     try {
       await login(formData);
     } catch (err) {
+      toast.error(err.response?.data.error)
       console.error(`Error occured at login: ${err.response?.data.error}`)
     }
   };

@@ -27,7 +27,7 @@ const UserDashboard = () => {
       try {
         const response = await api.get('/menu');
         console.log(response)
-        setMenuItems(response.data.slice(0, 5));
+        setMenuItems(response.data);
         setTrendingDishes(response.data)
       } catch (err) {
         console.error('Error fetching menu:', err);
@@ -45,12 +45,9 @@ const UserDashboard = () => {
 
   const categories = [
     { id: 'all', name: 'All', icon: '🍽️' },
-    { id: 'pizza', name: 'Pizza', icon: '🍕' },
-    { id: 'burger', name: 'Burgers', icon: '🍔' },
-    { id: 'rice', name: 'Rice', icon: '🍛' },
-    { id: 'chinese', name: 'Chinese', icon: '🥡' },
     { id: 'desserts', name: 'Desserts', icon: '🍰' },
-    { id: 'healthy', name: 'Healthy', icon: '🥗' },
+    { id: 'rice', name: 'Rice', icon: '🍛' },
+    { id: 'starters', name: 'Starters', icon: '🥡' },
     { id: 'beverages', name: 'Beverages', icon: '🥤' },
   ];
 
@@ -233,7 +230,7 @@ const UserDashboard = () => {
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pb-4">
-            {filteredMenu && filteredMenu.map((dish) => (
+            {filteredMenu && filteredMenu.slice(0, 6).map((dish) => (
               <div key={dish.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:cursor-pointer">
                 <img
                   src={dish.image_url}
