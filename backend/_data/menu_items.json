@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "name": "Veg Burger",
+    "description": "Freshly made burger with organic vegetables",
+    "price": 150,
+    "category": "Burgers",
+    "is_available": true,
+    "image_url": "/images/veg-burger.jpg",
+    "created_at": "2025-07-20T10:00:00Z",
+    "updated_at": "2025-07-20T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Cheese Pizza",
+    "description": "Classic cheese pizza with mozzarella and tomato base",
+    "price": 300,
+    "category": "Pizzas",
+    "is_available": true,
+    "image_url": "/images/cheese-pizza.jpg",
+    "created_at": "2025-07-20T10:01:00Z",
+    "updated_at": "2025-07-20T10:01:00Z"
+  },
+  {
+    "id": 3,
+    "name": "French Fries",
+    "description": "Crispy golden french fries with seasoning",
+    "price": 100,
+    "category": "Snacks",
+    "is_available": true,
+    "image_url": "/images/french-fries.jpg",
+    "created_at": "2025-07-20T10:02:00Z",
+    "updated_at": "2025-07-20T10:02:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Cold Coffee",
+    "description": "Chilled coffee blended with milk and ice",
+    "price": 80,
+    "category": "Drinks",
+    "is_available": true,
+    "image_url": "/images/cold-coffee.jpg",
+    "created_at": "2025-07-20T10:03:00Z",
+    "updated_at": "2025-07-20T10:03:00Z"
+  },
+  {
+    "id": 5,
+    "name": "Chicken Momos",
+    "description": "Steamed dumplings stuffed with chicken and herbs",
+    "price": 130,
+    "category": "Snacks",
+    "is_available": true,
+    "image_url": "/images/chicken-momos.jpg",
+    "created_at": "2025-07-20T10:04:00Z",
+    "updated_at": "2025-07-20T10:04:00Z"
+  },
+  {
+    "id": 6,
+    "name": "Veg Fried Rice",
+    "description": "Fried rice with assorted vegetables and soy sauce",
+    "price": 160,
+    "category": "Main Course",
+    "is_available": true,
+    "image_url": "/images/veg-fried-rice.jpg",
+    "created_at": "2025-07-20T10:05:00Z",
+    "updated_at": "2025-07-20T10:05:00Z"
+  },
+  {
+    "id": 7,
+    "name": "Chocolate Shake",
+    "description": "Thick and creamy chocolate milkshake",
+    "price": 90,
+    "category": "Drinks",
+    "is_available": true,
+    "image_url": "/images/chocolate-shake.jpg",
+    "created_at": "2025-07-20T10:06:00Z",
+    "updated_at": "2025-07-20T10:06:00Z"
+  },
+  {
+    "id": 8,
+    "name": "Pasta Alfredo",
+    "description": "Creamy Alfredo pasta with herbs and cheese",
+    "price": 250,
+    "category": "Main Course",
+    "is_available": true,
+    "image_url": "/images/pasta-alfredo.jpg",
+    "created_at": "2025-07-20T10:07:00Z",
+    "updated_at": "2025-07-20T10:07:00Z"
+  },
+  {
+    "id": 9,
+    "name": "Club Sandwich",
+    "description": "Triple layered sandwich with veggies and sauces",
+    "price": 140,
+    "category": "Snacks",
+    "is_available": true,
+    "image_url": "/images/club-sandwich.jpg",
+    "created_at": "2025-07-20T10:08:00Z",
+    "updated_at": "2025-07-20T10:08:00Z"
+  },
+  {
+    "id": 10,
+    "name": "Lemon Iced Tea",
+    "description": "Refreshing iced tea with lemon flavor",
+    "price": 70,
+    "category": "Drinks",
+    "is_available": true,
+    "image_url": "/images/lemon-iced-tea.jpg",
+    "created_at": "2025-07-20T10:09:00Z",
+    "updated_at": "2025-07-20T10:09:00Z"
+  },
+  {
+    "id": 11,
+    "name": "Paneer Wrap",
+    "description": "Soft tortilla filled with grilled paneer and veggies",
+    "price": 160,
+    "category": "Wraps",
+    "is_available": true,
+    "image_url": "/images/paneer-wrap.jpg",
+    "created_at": "2025-07-20T10:10:00Z",
+    "updated_at": "2025-07-20T10:10:00Z"
+  },
+  {
+    "id": 12,
+    "name": "Chicken Biryani",
+    "description": "Fragrant rice cooked with Nepali spiced chicken",
+    "price": 220,
+    "category": "Main Course",
+    "is_available": true,
+    "image_url": "/images/chicken-biryani.jpg",
+    "created_at": "2025-07-20T10:11:00Z",
+    "updated_at": "2025-07-20T10:11:00Z"
+  },
+  {
+    "id": 13,
+    "name": "Mango Lassi",
+    "description": "Chilled yogurt-based mango drink",
+    "price": 75,
+    "category": "Drinks",
+    "is_available": true,
+    "image_url": "/images/mango-lassi.jpg",
+    "created_at": "2025-07-20T10:12:00Z",
+    "updated_at": "2025-07-20T10:12:00Z"
+  },
+  {
+    "id": 14,
+    "name": "Spring Rolls",
+    "description": "Crispy fried rolls stuffed with vegetables",
+    "price": 110,
+    "category": "Snacks",
+    "is_available": true,
+    "image_url": "/images/spring-rolls.jpg",
+    "created_at": "2025-07-20T10:13:00Z",
+    "updated_at": "2025-07-20T10:13:00Z"
+  },
+  {
+    "id": 15,
+    "name": "Gulab Jamun",
+    "description": "Soft sweet balls soaked in rose syrup",
+    "price": 60,
+    "category": "Desserts",
+    "is_available": true,
+    "image_url": "/images/gulab-jamun.jpg",
+    "created_at": "2025-07-20T10:14:00Z",
+    "updated_at": "2025-07-20T10:14:00Z"
+  }
+]
