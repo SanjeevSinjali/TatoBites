@@ -1,120 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Gift, Clock, Star, Copy, Check, Percent, Zap, Users, Calendar } from 'lucide-react';
-import Header from './Header';
+import { api } from '../../lib/api-client';
+
 
 const Offers = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [copiedCode, setCopiedCode] = useState('');
+  const [offer, setOffer] = useState([])
 
-  const offers = [
-    {
-      id: 1,
-      title: "50% OFF on First Order",
-      description: "Get 50% discount up to ₹100 on your first order",
-      code: "WELCOME50",
-      discount: "50% OFF",
-      maxDiscount: "₹100",
-      minOrder: "₹200",
-      validTill: "Dec 31, 2024",
-      image: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "new_user",
-      category: "discount",
-      usageCount: 0,
-      maxUsage: 1,
-      restaurants: "All restaurants"
-    },
-    {
-      id: 2,
-      title: "Free Delivery Weekend",
-      description: "No delivery charges on orders above ₹299 this weekend",
-      code: "FREEDEL",
-      discount: "Free Delivery",
-      maxDiscount: "₹50",
-      minOrder: "₹299",
-      validTill: "Dec 25, 2024",
-      image: "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "delivery",
-      category: "free_delivery",
-      usageCount: 2,
-      maxUsage: 5,
-      restaurants: "All restaurants"
-    },
-    {
-      id: 3,
-      title: "Buy 1 Get 1 Free",
-      description: "Buy any pizza and get another pizza of equal or lesser value free",
-      code: "BOGO",
-      discount: "BOGO",
-      maxDiscount: "₹500",
-      minOrder: "₹400",
-      validTill: "Dec 30, 2024",
-      image: "https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "bogo",
-      category: "special",
-      usageCount: 1,
-      maxUsage: 3,
-      restaurants: "Pizza Palace, Italian Corner"
-    },
-    {
-      id: 4,
-      title: "Loyalty Bonus",
-      description: "Extra 20% off for our loyal customers",
-      code: "LOYAL20",
-      discount: "20% OFF",
-      maxDiscount: "₹150",
-      minOrder: "₹500",
-      validTill: "Jan 15, 2025",
-      image: "https://images.pexels.com/photos/1410235/pexels-photo-1410235.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "loyalty",
-      category: "discount",
-      usageCount: 0,
-      maxUsage: 10,
-      restaurants: "Selected restaurants"
-    },
-    {
-      id: 5,
-      title: "Midnight Munchies",
-      description: "30% off on late night orders between 11 PM - 6 AM",
-      code: "NIGHT30",
-      discount: "30% OFF",
-      maxDiscount: "₹120",
-      minOrder: "₹300",
-      validTill: "Dec 31, 2024",
-      image: "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "time_based",
-      category: "discount",
-      usageCount: 3,
-      maxUsage: 15,
-      restaurants: "24/7 restaurants"
-    },
-    {
-      id: 6,
-      title: "Group Order Discount",
-      description: "Order for 4+ people and get 25% off",
-      code: "GROUP25",
-      discount: "25% OFF",
-      maxDiscount: "₹200",
-      minOrder: "₹800",
-      validTill: "Jan 10, 2025",
-      image: "https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=400",
-      type: "group",
-      category: "discount",
-      usageCount: 0,
-      maxUsage: 5,
-      restaurants: "All restaurants"
-    }
-  ];
+  useEffect(() => {
+    const fetchOffers = async () => {
+      try {
+        const response = await api.get('/offer');
+        console.log(response)
+        setOffer(response.data);
+      } catch (err) {
+        console.error('Error fetching menu:', err);
+      }
+    };
+    fetchOffers();
+  }, [])
+
 
   const categories = [
     { id: 'all', name: 'All Offers', icon: Gift },
     { id: 'discount', name: 'Discounts', icon: Percent },
-    { id: 'free_delivery', name: 'Free Delivery', icon: Zap },
     { id: 'special', name: 'Special', icon: Star },
   ];
 
-  const filteredOffers = activeTab === 'all' 
-    ? offers 
-    : offers.filter(offer => offer.category === activeTab);
+  // const filteredOffers = activeTab === 'all'
+  //   ? offers
+  //   : offers.filter(offer => offer.category === activeTab);
 
   const copyCode = (code) => {
     navigator.clipboard.writeText(code);
@@ -162,8 +78,7 @@ const Offers = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -196,8 +111,8 @@ const Offers = ({ user, onLogout }) => {
             </div>
           </div>
           <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
-            <img 
-              src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=400" 
+            <img
+              src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=400"
               alt="Featured offer"
               className="w-full h-full object-cover"
             />
@@ -209,11 +124,10 @@ const Offers = ({ user, onLogout }) => {
             <button
               key={category.id}
               onClick={() => setActiveTab(category.id)}
-              className={`flex items-center space-x-2 py-3 px-4 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                activeTab === category.id
-                  ? 'bg-white text-red-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`flex items-center space-x-2 py-3 px-4 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${activeTab === category.id
+                ? 'bg-white text-red-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               <category.icon className="w-4 h-4" />
               <span>{category.name}</span>
@@ -222,7 +136,7 @@ const Offers = ({ user, onLogout }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredOffers.map((offer) => (
+          {offer.map((offer) => (
             <div key={offer.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden">
               <div className="relative">
                 <img
@@ -235,11 +149,11 @@ const Offers = ({ user, onLogout }) => {
                   <span className="text-sm font-medium">{offer.discount}</span>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-2">{offer.title}</h3>
                 <p className="text-gray-600 text-sm mb-4">{offer.description}</p>
-                
+
                 <div className="space-y-2 mb-4">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Max Discount:</span>
@@ -253,12 +167,8 @@ const Offers = ({ user, onLogout }) => {
                     <span className="text-gray-600">Valid Till:</span>
                     <span className="font-medium flex items-center">
                       <Calendar className="w-3 h-3 mr-1" />
-                      {offer.validTill}
+                      {offer?.validTill?.split("T")[0]}
                     </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Restaurants:</span>
-                    <span className="font-medium text-right">{offer.restaurants}</span>
                   </div>
                 </div>
 
@@ -268,13 +178,13 @@ const Offers = ({ user, onLogout }) => {
                     <span>{Math.round((offer.usageCount / offer.maxUsage) * 100)}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-red-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${(offer.usageCount / offer.maxUsage) * 100}%` }}
                     ></div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2 bg-gray-100 px-3 py-2 rounded-lg">
                     <span className="font-mono font-bold text-gray-900">{offer.code}</span>
@@ -289,13 +199,12 @@ const Offers = ({ user, onLogout }) => {
                       )}
                     </button>
                   </div>
-                  
-                  <button 
-                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                      offer.usageCount >= offer.maxUsage
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                        : 'bg-red-600 text-white hover:bg-red-700'
-                    }`}
+
+                  <button
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${offer.usageCount >= offer.maxUsage
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-red-600 text-white hover:bg-red-700'
+                      }`}
                     disabled={offer.usageCount >= offer.maxUsage}
                   >
                     {offer.usageCount >= offer.maxUsage ? 'Used Up' : 'Use Now'}
