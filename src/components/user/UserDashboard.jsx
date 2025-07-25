@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Search,
-  MapPin,
   Star,
-  Clock,
-  Filter,
-  ShoppingCart,
-  User,
-  Heart,
   Truck,
   Gift,
   TrendingUp,
-  Zap,
-  Award,
   ChevronRight,
-  Timer,
   Percent
 } from 'lucide-react';
 import { api } from '../../lib/api-client';
 import { useCart } from '../../lib/cart-provider';
+import { useAuth } from '../../lib/auth';
 
-const UserDashboard = (user) => {
+const UserDashboard = () => {
+  const { user } = useAuth()
   const { addToCart } = useCart();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -35,7 +27,7 @@ const UserDashboard = (user) => {
       try {
         const response = await api.get('/menu');
         console.log(response)
-        setMenuItems(response.data);
+        setMenuItems(response.data.slice(0, 5));
         setTrendingDishes(response.data)
       } catch (err) {
         console.error('Error fetching menu:', err);
@@ -55,9 +47,9 @@ const UserDashboard = (user) => {
     { id: 'all', name: 'All', icon: '🍽️' },
     { id: 'pizza', name: 'Pizza', icon: '🍕' },
     { id: 'burger', name: 'Burgers', icon: '🍔' },
-    { id: 'indian', name: 'Indian', icon: '🍛' },
+    { id: 'rice', name: 'Rice', icon: '🍛' },
     { id: 'chinese', name: 'Chinese', icon: '🥡' },
-    { id: 'dessert', name: 'Desserts', icon: '🍰' },
+    { id: 'desserts', name: 'Desserts', icon: '🍰' },
     { id: 'healthy', name: 'Healthy', icon: '🥗' },
     { id: 'beverages', name: 'Beverages', icon: '🥤' },
   ];
@@ -69,44 +61,22 @@ const UserDashboard = (user) => {
       subtitle: "Use code WELCOME50",
       image: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=800",
       color: "from-red-500 to-red-600"
-    },
-    {
-      id: 2,
-      title: "Buy 1 Get 1 Free",
-      subtitle: "On selected restaurants",
-      image: "https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=800",
-      color: "from-blue-500 to-blue-600"
     }
   ];
 
   const quickActions = [
-    { id: 1, name: 'Reorder', icon: Truck, color: 'bg-green-100 text-green-600', link: '/orders' },
-    { id: 2, name: 'Favorites', icon: Heart, color: 'bg-red-100 text-red-600', link: '/favorites' },
-    { id: 3, name: 'Offers', icon: Gift, color: 'bg-yellow-100 text-yellow-600', link: '/offers' }
+    { id: 1, name: 'Reorder', icon: Truck, color: 'bg-green-100 text-green-600', link: '/orders', requiresUser: true },
+    { id: 2, name: 'Offers', icon: Gift, color: 'bg-yellow-100 text-yellow-600', link: '/offers' }
   ];
-
-
-  const recentOrders = [
-    {
-      id: 1,
-      restaurant: "Mama's Kitchen",
-      items: "Butter Chicken, Naan",
-      amount: "₹450",
-      date: "Yesterday"
-    },
-    {
-      id: 2,
-      restaurant: "Pizza Palace",
-      items: "Margherita Pizza",
-      amount: "₹280",
-      date: "2 days ago"
-    }
-  ];
-
 
   const filteredMenu = menuItems.filter(item => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     return matchesCategory;
+  });
+
+  const filteredActions = quickActions.filter(action => {
+    if (action.requiresUser && !user) return false;
+    return true;
   });
 
 
@@ -117,7 +87,7 @@ const UserDashboard = (user) => {
         {/* Welcome Section */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">
-            Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user.name}! 👋
+            {/* Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user.name}! 👋 */}
           </h1>
           <p className="text-gray-600">What would you like to eat today?</p>
         </div>
@@ -136,9 +106,15 @@ const UserDashboard = (user) => {
                 <div className="relative z-10">
                   <h2 className="text-3xl font-bold mb-2">{offer.title}</h2>
                   <p className="text-xl mb-4">{offer.subtitle}</p>
-                  <button className="bg-white text-gray-900 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                  {/* <button className="bg-white text-gray-900 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors"> */}
+                  {/*   Order Now */}
+                  {/* </button> */}
+                  <Link
+                    to="/menu"
+                    className="bg-white text-gray-900 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors inline-block text-center"
+                  >
                     Order Now
-                  </button>
+                  </Link>
                 </div>
                 <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
                   <img
@@ -165,12 +141,13 @@ const UserDashboard = (user) => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {quickActions.map((action) => (
+        <div className={`grid gap-2 mb-8 ${filteredActions.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+          {filteredActions.map((action) => (
             <Link
               key={action.id}
               to={action.link}
-              className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 text-center group"
+              className={`bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 text-center group
+        ${filteredActions.length === 1 ? 'text-lg' : ''}`} // optional: bigger text if single item
             >
               <div className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform`}>
                 <action.icon className="w-6 h-6" />
@@ -188,12 +165,9 @@ const UserDashboard = (user) => {
               <TrendingUp className="w-5 h-5 mr-2 text-red-600" />
               Trending Now
             </h2>
-            <Link to="/search" className="text-red-600 hover:text-red-700 font-medium flex items-center">
-              View All <ChevronRight className="w-4 h-4 ml-1" />
-            </Link>
           </div>
           <div className="flex space-x-4 overflow-x-auto pb-4">
-            {trendingDishes && trendingDishes.slice(0, 3).map((dish) => (
+            {trendingDishes && trendingDishes.slice(0, 4).map((dish) => (
               <div key={dish.id} className="flex-shrink-0 w-64 bg-white rounded-xl shadow-sm overflow-hidden hover:cursor-pointer">
                 <img
                   src={dish.image_url}
@@ -215,7 +189,7 @@ const UserDashboard = (user) => {
                       onClick={
                         () => addToCart(dish)
                       }
-                      className=' bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'>Add to cart</button>
+                      className='px-4 py-2 rounded-lg font-medium transition-colors bg-red-600 text-white hover:bg-red-700'>Add to cart</button>
                   </div>
                 </div>
               </div>
@@ -247,19 +221,20 @@ const UserDashboard = (user) => {
 
 
         {/* menu */}
+        {/* menu */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900 flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-red-600" />
               Menu
             </h2>
-            {/* <Link to="/search" className="text-red-600 hover:text-red-700 font-medium flex items-center"> */}
-            {/*   View All <ChevronRight className="w-4 h-4 ml-1" /> */}
-            {/* </Link> */}
+            <Link to="/search" className="text-red-600 hover:text-red-700 font-medium flex items-center">
+              View All <ChevronRight className="w-4 h-4 ml-1" />
+            </Link>
           </div>
-          <div className="flex space-x-4 overflow-x-auto pb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pb-4">
             {filteredMenu && filteredMenu.map((dish) => (
-              <div key={dish.id} className="flex-shrink-0 w-64 bg-white rounded-xl shadow-sm overflow-hidden hover:cursor-pointer">
+              <div key={dish.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:cursor-pointer">
                 <img
                   src={dish.image_url}
                   alt={dish.name}
@@ -276,12 +251,14 @@ const UserDashboard = (user) => {
                     </div>
                   </div>
                 </div>
-                <div className='flex justify-end mt-4'>
+                <div className='flex justify-end my-4'>
                   <button
-
-                    className=' bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'>Add to cart</button>
+                    onClick={() => addToCart(dish)}
+                    className='px-4 py-2 rounded-lg font-medium transition-colors bg-red-600 text-white hover:bg-red-700'
+                  >
+                    Add to cart
+                  </button>
                 </div>
-
               </div>
             ))}
           </div>

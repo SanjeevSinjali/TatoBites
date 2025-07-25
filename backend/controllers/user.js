@@ -1,6 +1,6 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
-const { User } = require('../models');
+const { User, Order } = require('../models');
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 
@@ -94,7 +94,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Delete user
-// @route     DELETE /api/v1/auth/users/:id
+// @route     DELETE /api/v1/users/:id
 // @access    Private/Admin
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const deleted = await User.destroy({
@@ -111,9 +111,24 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// exports.accountStats = asyncHandler(async (req, res, next) => {
-//   const { id } = req.user
-//
-//
-//
-// })
+// @desc      GET user
+// @route     GET /api/v1/users/accStats
+// @access    Private
+exports.accountStatistic = asyncHandler(async (req, res, next) => {
+  console.log(req.user)
+  const orderCount = await Order.count({
+    where: { user_id: req.user.id }
+  });
+
+  const totalSpend = await Order.sum('total_price', {
+    where: { user_id: req.user.id, status: 'COMPLETED' }
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      orderCount,
+      totalSpend: totalSpend || 0
+    }
+  });
+});

@@ -4,17 +4,19 @@ const {
   getUser,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  accountStatistic
 } = require('../controllers/user');
 
 const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth.js")
-// router.post('/login', loginUser);
 
 router.route('/')
   .get(protect, getUsers)
   .post(createUser);
+
+router.route("/accStat").get(protect, accountStatistic)
 
 router.route('/:id')
   .get(getUser)

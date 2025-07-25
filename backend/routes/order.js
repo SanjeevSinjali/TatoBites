@@ -16,8 +16,8 @@ router.route('/')
   .get(protect, getOrders)
   .post(protect, createOrder);
 
-router.route('/order/admin')
-  .get(protect, getOrderAdmin)
+router.route('/admin')
+  .get(protect, authorize("ADMIN"), getOrderAdmin)
 
 router.route('/:id')
   .get(protect, getOrder)

@@ -4,7 +4,8 @@ const {
   getOffers,
   createOffers,
   updateOffer,
-  deleteOffer
+  deleteOffer,
+  validatePromoCode
 } = require('../controllers/offer.js');
 
 const { protect, authorize } = require('../middleware/auth.js')
@@ -12,8 +13,10 @@ const { protect, authorize } = require('../middleware/auth.js')
 const router = express.Router();
 
 router.route('/')
-  .get(protect, getOffers)
+  .get(getOffers)
   .post(protect, createOffers);
+
+router.route("/validate").post(protect, validatePromoCode)
 
 router.route('/:id')
   .get(protect, getOffer)

@@ -7,17 +7,44 @@ import { api } from '../../lib/api-client';
 
 const Cart = ({ user, onLogout }) => {
   const { cart, removeFromCart, updateQuantity, getTotalAmount, clearCart } = useCart();
+  const [promoCode, setPromoCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [appliedCode, setAppliedCode] = useState('');
+  const [isApplying, setIsApplying] = useState(false);
 
-  const [deliveryAddress, setDeliveryAddress] = useState({
-    type: 'Home',
-    address: '123 Main Street, Apartment 4B, New York, NY 10001'
-  });
+  const applyPromoCode = async () => {
+    if (!promoCode.trim()) {
+      toast.error("Please enter a promo code.");
+      return;
+    }
+    setIsApplying(true);
 
+    const orderAmount = getSubtotal();
+
+    try {
+      const response = await api.post('/offer/validate', { code: promoCode.trim(), orderAmount });
+      console.log(response.data)
+      setDiscountAmount(parseFloat(response.data?.discountAmount));
+      setAppliedCode(promoCode.trim().toUpperCase());
+      toast.success(`Promo code "${promoCode.trim()}" applied! You saved ₹${response.data?.discountAmount}`);
+    } catch (error) {
+      setDiscountAmount(0);
+      setAppliedCode('');
+      toast.error("Error validating promo code.");
+    } finally {
+      setIsApplying(false);
+    }
+  };
   const getSubtotal = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
-  const convertCartToOrder = (cartItems) => {
+  const getTotalAfterDiscount = () => {
+    const subtotal = getSubtotal();
+    return (subtotal - discountAmount).toFixed(2);
+  };
+
+  const convertCartToOrder = (cartItems, discountAmount = 0) => {
     const items = cartItems.map(item => {
       const priceEach = parseFloat(item.price);
       const totalPrice = priceEach * item.quantity;
@@ -30,7 +57,10 @@ const Cart = ({ user, onLogout }) => {
       };
     });
 
-    const total_price = items.reduce((sum, item) => sum + item.total_price, 0);
+    const subtotal = items.reduce((sum, item) => sum + item.total_price, 0);
+
+    // Apply discount if any
+    const total_price = subtotal - discountAmount;
 
     return {
       order_type: "DINE_IN",
@@ -39,10 +69,27 @@ const Cart = ({ user, onLogout }) => {
     };
   };
 
-  const placeOrder = async (data) => {
-    const order = await api.post("/order", data)
-
-  }
+  const placeOrder = async () => {
+    if (cart.length < 1) {
+      toast.error("Cart cannot be empty..");
+      return;
+    }
+    try {
+      const converted_data = convertCartToOrder(cart, discountAmount);
+      await api.post("/order", converted_data);
+      toast.success("Order Successful", { duration: 5000 });
+      clearCart();
+      setDiscountAmount(0);
+      setAppliedCode('');
+      setPromoCode('');
+    } catch (e) {
+      if (e.response?.status === 401) {
+        toast.error("Unauthorized");
+      } else {
+        toast.error("Error occurred while placing order");
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -104,6 +151,24 @@ const Cart = ({ user, onLogout }) => {
                   </div>
                 ))}
               </div>
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder="Enter promo code"
+                  className="flex-1 p-2 border border-gray-300 rounded-lg"
+                  disabled={!!appliedCode || isApplying}
+                />
+                <button
+                  onClick={applyPromoCode}
+                  disabled={!!appliedCode || isApplying}
+                  className="bg-red-600 text-white px-4 rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  {isApplying ? 'Applying...' : 'Apply'}
+                </button>
+              </div>
+
             </div>
 
           </div>
@@ -120,36 +185,25 @@ const Cart = ({ user, onLogout }) => {
                   <span className="text-gray-600">Subtotal</span>
                   <span className="font-medium">₹{getSubtotal()}</span>
                 </div>
+
+                {discountAmount > 0 && (
+                  <div className="flex justify-between text-green-600 font-semibold">
+                    <span>Discount ({appliedCode})</span>
+                    <span>-₹{discountAmount.toFixed(2)}</span>
+                  </div>
+                )}
+
                 <hr />
+
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span>₹{getSubtotal()}</span>
+                  <span>₹{getTotalAfterDiscount()}</span>
                 </div>
               </div>
 
               <div className="p-6 border-t border-gray-200">
                 <button
-                  onClick={() => {
-
-                    if (cart.length < 1) {
-                      toast.error("Cart cannot be empty..")
-                      return
-                    }
-
-                    try {
-                      const converted_data = convertCartToOrder(cart)
-                      console.log(converted_data)
-                      placeOrder(converted_data)
-                      toast.success("Order Successful", {
-                        duration: 5000
-                      })
-                      clearCart()
-                    } catch (e) {
-                      console.log(e)
-                      toast.error("err occured while placing order")
-                    }
-
-                  }}
+                  onClick={() => placeOrder()}
                   className="w-full bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center space-x-2">
                   <CreditCard className="w-5 h-5" />
                   <span>Place Order</span>

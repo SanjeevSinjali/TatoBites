@@ -4,7 +4,7 @@ import { api } from '../../lib/api-client';
 
 
 const Offers = ({ user, onLogout }) => {
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('ALL');
   const [copiedCode, setCopiedCode] = useState('');
   const [offer, setOffer] = useState([])
 
@@ -15,7 +15,7 @@ const Offers = ({ user, onLogout }) => {
         console.log(response)
         setOffer(response.data);
       } catch (err) {
-        console.error('Error fetching menu:', err);
+        console.error('Error fetching offers:', err);
       }
     };
     fetchOffers();
@@ -23,14 +23,14 @@ const Offers = ({ user, onLogout }) => {
 
 
   const categories = [
-    { id: 'all', name: 'All Offers', icon: Gift },
-    { id: 'discount', name: 'Discounts', icon: Percent },
-    { id: 'special', name: 'Special', icon: Star },
+    { id: 'ALL', name: 'All Offers', icon: Gift },
+    { id: 'DISCOUNT', name: 'Discounts', icon: Percent },
+    { id: 'SPECIAL', name: 'Special', icon: Star },
   ];
 
-  // const filteredOffers = activeTab === 'all'
-  //   ? offers
-  //   : offers.filter(offer => offer.category === activeTab);
+  const filteredOffers = activeTab === 'ALL'
+    ? offer
+    : offer.filter(offer => offer.category === activeTab);
 
   const copyCode = (code) => {
     navigator.clipboard.writeText(code);
@@ -40,17 +40,17 @@ const Offers = ({ user, onLogout }) => {
 
   const getOfferIcon = (type) => {
     switch (type) {
-      case 'new_user':
+      case 'NEW_USER':
         return <Users className="w-5 h-5" />;
-      case 'delivery':
+      case 'DELIVERY':
         return <Zap className="w-5 h-5" />;
-      case 'bogo':
+      case 'BOGO':
         return <Gift className="w-5 h-5" />;
-      case 'loyalty':
+      case 'LOYALTY':
         return <Star className="w-5 h-5" />;
-      case 'time_based':
+      case 'TIME_BASED':
         return <Clock className="w-5 h-5" />;
-      case 'group':
+      case 'GROUP':
         return <Users className="w-5 h-5" />;
       default:
         return <Percent className="w-5 h-5" />;
@@ -59,17 +59,17 @@ const Offers = ({ user, onLogout }) => {
 
   const getOfferColor = (type) => {
     switch (type) {
-      case 'new_user':
+      case 'NEW_USER':
         return 'bg-blue-100 text-blue-600';
-      case 'delivery':
+      case 'DELIVERY':
         return 'bg-green-100 text-green-600';
-      case 'bogo':
+      case 'BOGO':
         return 'bg-purple-100 text-purple-600';
-      case 'loyalty':
+      case 'LOYALTY':
         return 'bg-yellow-100 text-yellow-600';
-      case 'time_based':
+      case 'TIME_BASED':
         return 'bg-indigo-100 text-indigo-600';
-      case 'group':
+      case 'GROUP':
         return 'bg-pink-100 text-pink-600';
       default:
         return 'bg-red-100 text-red-600';
@@ -88,36 +88,6 @@ const Offers = ({ user, onLogout }) => {
           <p className="text-gray-600 mt-2">Save more on your favorite food</p>
         </div>
 
-        <div className="bg-gradient-to-r from-red-600 to-pink-600 rounded-2xl p-8 text-white mb-8 relative overflow-hidden">
-          <div className="relative z-10">
-            <div className="flex items-center mb-4">
-              <div className="bg-white/20 p-2 rounded-lg mr-3">
-                <Zap className="w-6 h-6" />
-              </div>
-              <span className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
-                Limited Time
-              </span>
-            </div>
-            <h2 className="text-3xl font-bold mb-2">Mega Weekend Sale!</h2>
-            <p className="text-red-100 mb-4 text-lg">Up to 60% off on all restaurants + Free delivery</p>
-            <div className="flex items-center space-x-4">
-              <button className="bg-white text-red-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-                Order Now
-              </button>
-              <div className="flex items-center space-x-2 text-red-100">
-                <Clock className="w-4 h-4" />
-                <span>Ends in 2 days</span>
-              </div>
-            </div>
-          </div>
-          <div className="absolute right-0 top-0 w-1/3 h-full opacity-20">
-            <img
-              src="https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=400"
-              alt="Featured offer"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
 
         <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8 overflow-x-auto">
           {categories.map((category) => (
@@ -136,7 +106,7 @@ const Offers = ({ user, onLogout }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {offer.map((offer) => (
+          {filteredOffers.map((offer) => (
             <div key={offer.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden">
               <div className="relative">
                 <img

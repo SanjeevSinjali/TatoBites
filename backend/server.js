@@ -21,7 +21,7 @@ const auth = require('./routes/auth.js')
 const seeder = require('./routes/seeder');
 const offer = require('./routes/offers.js');
 const notification = require('./routes/notification.js');
-
+const adminroute = require('./routes/admin.js')
 
 
 const app = express();
@@ -59,7 +59,7 @@ app.use('/api/v1/auth', auth);
 app.use('/api/v1/seed', seeder);
 app.use('/api/v1/offer', offer);
 app.use('/api/v1/notification', notification);
-
+app.use("/api/v1/admin", adminroute)
 
 
 app.use(errorHandler);
