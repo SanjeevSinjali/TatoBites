@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
-import { 
-  HelpCircle, 
-  Search, 
-  MessageCircle, 
-  Phone, 
-  Mail, 
+import {
+  HelpCircle,
+  Search,
+  MessageCircle,
+  Phone,
+  Mail,
   ChevronRight,
   ChevronDown,
   Clock,
   CheckCircle,
-  AlertCircle,
   Book,
   Headphones,
   FileText
 } from 'lucide-react';
-import Header from './Header';
 
 const Help = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('faq');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [chatMessage, setChatMessage] = useState('');
-  const [supportTicket, setSupportTicket] = useState({
-    subject: '',
-    category: '',
-    description: '',
-    priority: 'medium'
-  });
+  // const [supportTicket, setSupportTicket] = useState({
+  //   subject: '',
+  //   category: '',
+  //   description: '',
+  //   priority: 'medium'
+  // });
 
   const faqCategories = [
     {
@@ -158,32 +156,31 @@ const Help = ({ user, onLogout }) => {
     { name: 'Request Refund', icon: '💰', action: () => console.log('Request refund') }
   ];
 
-  const allFaqs = faqCategories.flatMap(category => 
+  const allFaqs = faqCategories.flatMap(category =>
     category.faqs.map(faq => ({ ...faq, category: category.name }))
   );
 
-  const filteredFaqs = searchQuery 
-    ? allFaqs.filter(faq => 
-        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  const filteredFaqs = searchQuery
+    ? allFaqs.filter(faq =>
+      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : allFaqs;
 
   const toggleFaq = (faqId) => {
     setExpandedFaq(expandedFaq === faqId ? null : faqId);
   };
 
-  const submitTicket = () => {
-    if (supportTicket.subject && supportTicket.description) {
-      console.log('Submitting support ticket:', supportTicket);
-      setSupportTicket({ subject: '', category: '', description: '', priority: 'medium' });
-    }
-  };
+  // const submitTicket = () => {
+  //   if (supportTicket.subject && supportTicket.description) {
+  //     console.log('Submitting support ticket:', supportTicket);
+  //     setSupportTicket({ subject: '', category: '', description: '', priority: 'medium' });
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -227,37 +224,34 @@ const Help = ({ user, onLogout }) => {
         <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8">
           <button
             onClick={() => setActiveTab('faq')}
-            className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'faq'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'faq'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             <Book className="w-4 h-4" />
             <span>FAQ</span>
           </button>
           <button
             onClick={() => setActiveTab('contact')}
-            className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'contact'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'contact'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             <Headphones className="w-4 h-4" />
             <span>Contact Us</span>
           </button>
-          <button
-            onClick={() => setActiveTab('ticket')}
-            className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'ticket'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            <span>Submit Ticket</span>
-          </button>
+          {/* <button */}
+          {/*   onClick={() => setActiveTab('ticket')} */}
+          {/*   className={`flex items-center space-x-2 flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'ticket' */}
+          {/*     ? 'bg-white text-red-600 shadow-sm' */}
+          {/*     : 'text-gray-600 hover:text-gray-900' */}
+          {/*     }`} */}
+          {/* > */}
+          {/*   <FileText className="w-4 h-4" /> */}
+          {/*   <span>Submit Ticket</span> */}
+          {/* </button> */}
         </div>
 
         {activeTab === 'faq' && (
@@ -340,7 +334,7 @@ const Help = ({ user, onLogout }) => {
                   </div>
                   <h3 className="font-bold text-lg text-gray-900 mb-2">{option.name}</h3>
                   <p className="text-gray-600 text-sm mb-4">{option.description}</p>
-                  
+
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center space-x-2 text-sm">
                       <Clock className="w-4 h-4 text-gray-400" />
@@ -412,110 +406,110 @@ const Help = ({ user, onLogout }) => {
           </div>
         )}
 
-        {activeTab === 'ticket' && (
-          <div className="bg-white rounded-xl shadow-sm">
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-xl font-bold text-gray-900">Submit Support Ticket</h3>
-              <p className="text-gray-600 mt-2">Describe your issue and we'll get back to you</p>
-            </div>
-            
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    value={supportTicket.subject}
-                    onChange={(e) => setSupportTicket({ ...supportTicket, subject: e.target.value })}
-                    placeholder="Brief description of your issue"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Category
-                  </label>
-                  <select
-                    value={supportTicket.category}
-                    onChange={(e) => setSupportTicket({ ...supportTicket, category: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  >
-                    <option value="">Select category</option>
-                    <option value="order">Order Issues</option>
-                    <option value="payment">Payment Problems</option>
-                    <option value="account">Account Issues</option>
-                    <option value="technical">Technical Problems</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Priority
-                </label>
-                <div className="flex space-x-4">
-                  {['low', 'medium', 'high', 'urgent'].map((priority) => (
-                    <label key={priority} className="flex items-center">
-                      <input
-                        type="radio"
-                        name="priority"
-                        value={priority}
-                        checked={supportTicket.priority === priority}
-                        onChange={(e) => setSupportTicket({ ...supportTicket, priority: e.target.value })}
-                        className="text-red-600 focus:ring-red-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700 capitalize">{priority}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
-                </label>
-                <textarea
-                  value={supportTicket.description}
-                  onChange={(e) => setSupportTicket({ ...supportTicket, description: e.target.value })}
-                  placeholder="Please provide detailed information about your issue..."
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
-                />
-              </div>
-
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setSupportTicket({ subject: '', category: '', description: '', priority: 'medium' })}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Clear
-                </button>
-                <button
-                  onClick={submitTicket}
-                  disabled={!supportTicket.subject || !supportTicket.description}
-                  className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                  Submit Ticket
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* {activeTab === 'ticket' && ( */}
+        {/*   <div className="bg-white rounded-xl shadow-sm"> */}
+        {/*     <div className="p-6 border-b border-gray-200"> */}
+        {/*       <h3 className="text-xl font-bold text-gray-900">Submit Support Ticket</h3> */}
+        {/*       <p className="text-gray-600 mt-2">Describe your issue and we'll get back to you</p> */}
+        {/*     </div> */}
+        {/**/}
+        {/*     <div className="p-6 space-y-6"> */}
+        {/*       <div className="grid grid-cols-1 md:grid-cols-2 gap-6"> */}
+        {/*         <div> */}
+        {/*           <label className="block text-sm font-medium text-gray-700 mb-2"> */}
+        {/*             Subject */}
+        {/*           </label> */}
+        {/*           <input */}
+        {/*             type="text" */}
+        {/*             value={supportTicket.subject} */}
+        {/*             onChange={(e) => setSupportTicket({ ...supportTicket, subject: e.target.value })} */}
+        {/*             placeholder="Brief description of your issue" */}
+        {/*             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" */}
+        {/*           /> */}
+        {/*         </div> */}
+        {/**/}
+        {/*         <div> */}
+        {/*           <label className="block text-sm font-medium text-gray-700 mb-2"> */}
+        {/*             Category */}
+        {/*           </label> */}
+        {/*           <select */}
+        {/*             value={supportTicket.category} */}
+        {/*             onChange={(e) => setSupportTicket({ ...supportTicket, category: e.target.value })} */}
+        {/*             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent" */}
+        {/*           > */}
+        {/*             <option value="">Select category</option> */}
+        {/*             <option value="order">Order Issues</option> */}
+        {/*             <option value="payment">Payment Problems</option> */}
+        {/*             <option value="account">Account Issues</option> */}
+        {/*             <option value="technical">Technical Problems</option> */}
+        {/*             <option value="other">Other</option> */}
+        {/*           </select> */}
+        {/*         </div> */}
+        {/*       </div> */}
+        {/**/}
+        {/*       <div> */}
+        {/*         <label className="block text-sm font-medium text-gray-700 mb-2"> */}
+        {/*           Priority */}
+        {/*         </label> */}
+        {/*         <div className="flex space-x-4"> */}
+        {/*           {['low', 'medium', 'high', 'urgent'].map((priority) => ( */}
+        {/*             <label key={priority} className="flex items-center"> */}
+        {/*               <input */}
+        {/*                 type="radio" */}
+        {/*                 name="priority" */}
+        {/*                 value={priority} */}
+        {/*                 checked={supportTicket.priority === priority} */}
+        {/*                 onChange={(e) => setSupportTicket({ ...supportTicket, priority: e.target.value })} */}
+        {/*                 className="text-red-600 focus:ring-red-500" */}
+        {/*               /> */}
+        {/*               <span className="ml-2 text-sm text-gray-700 capitalize">{priority}</span> */}
+        {/*             </label> */}
+        {/*           ))} */}
+        {/*         </div> */}
+        {/*       </div> */}
+        {/**/}
+        {/*       <div> */}
+        {/*         <label className="block text-sm font-medium text-gray-700 mb-2"> */}
+        {/*           Description */}
+        {/*         </label> */}
+        {/*         <textarea */}
+        {/*           value={supportTicket.description} */}
+        {/*           onChange={(e) => setSupportTicket({ ...supportTicket, description: e.target.value })} */}
+        {/*           placeholder="Please provide detailed information about your issue..." */}
+        {/*           rows={6} */}
+        {/*           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none" */}
+        {/*         /> */}
+        {/*       </div> */}
+        {/**/}
+        {/*       <div className="flex space-x-3"> */}
+        {/*         <button */}
+        {/*           onClick={() => setSupportTicket({ subject: '', category: '', description: '', priority: 'medium' })} */}
+        {/*           className="flex-1 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" */}
+        {/*         > */}
+        {/*           Clear */}
+        {/*         </button> */}
+        {/*         <button */}
+        {/*           onClick={submitTicket} */}
+        {/*           disabled={!supportTicket.subject || !supportTicket.description} */}
+        {/*           className="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" */}
+        {/*         > */}
+        {/*           Submit Ticket */}
+        {/*         </button> */}
+        {/*       </div> */}
+        {/*     </div> */}
+        {/*   </div> */}
+        {/* )} */}
 
         {/* Status Banner */}
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-8">
-          <div className="flex items-center space-x-3">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <div>
-              <p className="font-medium text-green-900">All systems operational</p>
-              <p className="text-sm text-green-700">Our services are running smoothly</p>
-            </div>
-          </div>
-        </div>
+        {/* <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-8"> */}
+        {/*   <div className="flex items-center space-x-3"> */}
+        {/*     <CheckCircle className="w-5 h-5 text-green-600" /> */}
+        {/*     <div> */}
+        {/*       <p className="font-medium text-green-900">All systems operational</p> */}
+        {/*       <p className="text-sm text-green-700">Our services are running smoothly</p> */}
+        {/*     </div> */}
+        {/*   </div> */}
+        {/* </div> */}
       </main>
     </div>
   );
