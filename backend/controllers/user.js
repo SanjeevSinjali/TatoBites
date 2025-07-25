@@ -2,12 +2,19 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
 // @desc      Get all users
 // @route     GET /api/v1/auth/users
 // @access    Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.findAll();
+  const users = await User.findAll({
+    where: {
+      role: {
+        [Op.ne]: 'ADMIN'
+      }
+    }
+  });
 
   res.status(200).json({
     success: true,

@@ -2,6 +2,12 @@ const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 const { Order, OrderItem } = require('../models');
 
+exports.getOrderAdmin = asyncHandler(async (req, res, next) => {
+  const orders = await Order.findAll()
+
+  res.status(200).json({ success: true, data: orders });
+})
+
 // @desc      Get all orders
 // @route     GET /api/v1/orders
 // @access    Private/Admin
