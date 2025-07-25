@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { 
-  Star, 
-  MessageSquare, 
-  ThumbsUp, 
-  Camera, 
+import {
+  Star,
+  MessageSquare,
+  ThumbsUp,
+  Camera,
   Filter,
   Calendar,
   User,
   Edit,
   Trash2
 } from 'lucide-react';
-import Header from '../components/Header';
 
 const Reviews = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('my_reviews');
@@ -125,11 +124,10 @@ const Reviews = ({ user, onLogout }) => {
             disabled={!interactive}
           >
             <Star
-              className={`w-5 h-5 ${
-                star <= rating
-                  ? 'text-yellow-400 fill-current'
-                  : 'text-gray-300'
-              }`}
+              className={`w-5 h-5 ${star <= rating
+                ? 'text-yellow-400 fill-current'
+                : 'text-gray-300'
+                }`}
             />
           </button>
         ))}
@@ -139,8 +137,7 @@ const Reviews = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -183,21 +180,19 @@ const Reviews = ({ user, onLogout }) => {
         <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8">
           <button
             onClick={() => setActiveTab('my_reviews')}
-            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'my_reviews'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'my_reviews'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             My Reviews ({myReviews.length})
           </button>
           <button
             onClick={() => setActiveTab('pending')}
-            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'pending'
-                ? 'bg-white text-red-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'pending'
+              ? 'bg-white text-red-600 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
+              }`}
           >
             Pending Reviews ({pendingReviews.length})
           </button>
@@ -250,7 +245,7 @@ const Reviews = ({ user, onLogout }) => {
                   {review.title && (
                     <h4 className="font-medium text-gray-900 mb-2">{review.title}</h4>
                   )}
-                  
+
                   <p className="text-gray-700 mb-4">{review.comment}</p>
 
                   {review.images.length > 0 && (
@@ -336,7 +331,7 @@ const Reviews = ({ user, onLogout }) => {
               <div className="p-6 border-b border-gray-200">
                 <h3 className="text-xl font-bold text-gray-900">Write a Review</h3>
               </div>
-              
+
               <div className="p-6 space-y-6">
                 {/* Restaurant Selection */}
                 <div>
