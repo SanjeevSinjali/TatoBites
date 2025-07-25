@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Search as SearchIcon, 
-  Clock, 
-  TrendingUp, 
-  Star, 
-  MapPin, 
+import {
+  Search as SearchIcon,
+  Clock,
+  TrendingUp,
+  Star,
+  MapPin,
   Filter,
   X,
   Sliders
 } from 'lucide-react';
 
-import Header from '../components/Header';
 const Search = ({ user, onLogout }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
@@ -196,8 +195,7 @@ const Search = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Search Header */}
         <div className="mb-8">
@@ -403,31 +401,28 @@ const Search = ({ user, onLogout }) => {
             <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8 max-w-md">
               <button
                 onClick={() => setActiveFilter('all')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  activeFilter === 'all'
-                    ? 'bg-white text-red-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeFilter === 'all'
+                  ? 'bg-white text-red-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+                  }`}
               >
                 All ({filteredRestaurants.length + filteredDishes.length})
               </button>
               <button
                 onClick={() => setActiveFilter('restaurants')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  activeFilter === 'restaurants'
-                    ? 'bg-white text-red-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeFilter === 'restaurants'
+                  ? 'bg-white text-red-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+                  }`}
               >
                 Restaurants ({filteredRestaurants.length})
               </button>
               <button
                 onClick={() => setActiveFilter('dishes')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  activeFilter === 'dishes'
-                    ? 'bg-white text-red-600 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
+                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeFilter === 'dishes'
+                  ? 'bg-white text-red-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+                  }`}
               >
                 Dishes ({filteredDishes.length})
               </button>
@@ -455,11 +450,11 @@ const Search = ({ user, onLogout }) => {
                             {restaurant.offer}
                           </div>
                         </div>
-                        
+
                         <div className="p-4">
                           <h4 className="font-bold text-lg text-gray-900 mb-1">{restaurant.name}</h4>
                           <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine}</p>
-                          
+
                           <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
                             <div className="flex items-center space-x-1">
                               <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -471,7 +466,7 @@ const Search = ({ user, onLogout }) => {
                               <span>{restaurant.deliveryTime}</span>
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center justify-between">
                             <span className="text-sm text-gray-600">₹{restaurant.avgCost} for two</span>
                             <div className="flex items-center space-x-1">
@@ -498,7 +493,7 @@ const Search = ({ user, onLogout }) => {
                             alt={dish.name}
                             className="w-24 h-24 object-cover rounded-lg"
                           />
-                          
+
                           <div className="flex-1">
                             <div className="flex items-center space-x-2 mb-1">
                               <div className={`w-3 h-3 rounded-full ${dish.isVeg ? 'bg-green-500' : 'bg-red-500'}`}></div>
@@ -506,7 +501,7 @@ const Search = ({ user, onLogout }) => {
                             </div>
                             <p className="text-sm text-gray-600 mb-2">{dish.restaurant}</p>
                             <p className="text-sm text-gray-600 mb-3">{dish.description}</p>
-                            
+
                             <div className="flex items-center justify-between">
                               <div className="flex items-center space-x-4">
                                 <span className="text-lg font-bold text-gray-900">₹{dish.price}</span>
