@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Star, Clock, MapPin, ShoppingCart, Filter, Search } from 'lucide-react';
-import Header from './Header';
 
 const Favorites = ({ user, onLogout }) => {
   const [activeTab, setActiveTab] = useState('restaurants');
@@ -112,8 +111,7 @@ const Favorites = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -128,21 +126,19 @@ const Favorites = ({ user, onLogout }) => {
         <div className="flex space-x-1 bg-gray-200 rounded-lg p-1 mb-8 max-w-md">
           <button
             onClick={() => setActiveTab('restaurants')}
-            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'restaurants'
+            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'restaurants'
                 ? 'bg-white text-red-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
-            }`}
+              }`}
           >
             Restaurants ({favoriteRestaurants.length})
           </button>
           <button
             onClick={() => setActiveTab('dishes')}
-            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${
-              activeTab === 'dishes'
+            className={`flex-1 py-3 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'dishes'
                 ? 'bg-white text-red-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
-            }`}
+              }`}
           >
             Dishes ({favoriteDishes.length})
           </button>
@@ -199,7 +195,7 @@ const Favorites = ({ user, onLogout }) => {
                         <Heart className="w-4 h-4 text-red-600 fill-current" />
                       </button>
                     </div>
-                    
+
                     <div className="p-4">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="font-bold text-lg text-gray-900">{restaurant.name}</h3>
@@ -208,10 +204,10 @@ const Favorites = ({ user, onLogout }) => {
                           <span className="text-xs font-medium text-green-600">{restaurant.rating}</span>
                         </div>
                       </div>
-                      
+
                       <p className="text-gray-600 text-sm mb-2">{restaurant.cuisine}</p>
                       <p className="text-xs text-gray-500 mb-3">Last ordered: {restaurant.lastOrdered}</p>
-                      
+
                       <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                         <div className="flex items-center space-x-1">
                           <Clock className="w-4 h-4" />
@@ -222,7 +218,7 @@ const Favorites = ({ user, onLogout }) => {
                           <span>{restaurant.distance}</span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-600">{restaurant.avgCost}</span>
                         <Link
@@ -262,7 +258,7 @@ const Favorites = ({ user, onLogout }) => {
                         alt={dish.name}
                         className="w-24 h-24 object-cover rounded-lg"
                       />
-                      
+
                       <div className="flex-1">
                         <div className="flex items-start justify-between mb-2">
                           <div>
@@ -279,10 +275,10 @@ const Favorites = ({ user, onLogout }) => {
                             <Heart className="w-4 h-4 text-red-600 fill-current" />
                           </button>
                         </div>
-                        
+
                         <p className="text-sm text-gray-600 mb-2">{dish.description}</p>
                         <p className="text-xs text-gray-500 mb-3">Last ordered: {dish.lastOrdered}</p>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-4">
                             <span className="text-lg font-bold text-gray-900">{dish.price}</span>
