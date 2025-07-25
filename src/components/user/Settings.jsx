@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Bell, Shield, CreditCard, MapPin, Globe, Moon, Sun, Smartphone } from 'lucide-react';
-import Header from '../components/Header';
 
 const Settings = ({ user, onLogout }) => {
   const [notifications, setNotifications] = useState({
@@ -33,8 +32,7 @@ const Settings = ({ user, onLogout }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header user={user} onLogout={onLogout} cartItems={[]} />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
 
@@ -55,14 +53,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handleNotificationChange('orderUpdates')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    notifications.orderUpdates ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${notifications.orderUpdates ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      notifications.orderUpdates ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${notifications.orderUpdates ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -74,14 +70,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handleNotificationChange('promotions')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    notifications.promotions ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${notifications.promotions ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      notifications.promotions ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${notifications.promotions ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -93,14 +87,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handleNotificationChange('newRestaurants')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    notifications.newRestaurants ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${notifications.newRestaurants ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      notifications.newRestaurants ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${notifications.newRestaurants ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -114,14 +106,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handleNotificationChange('email')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    notifications.email ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${notifications.email ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      notifications.email ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${notifications.email ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -133,14 +123,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handleNotificationChange('sms')}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    notifications.sms ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${notifications.sms ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      notifications.sms ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${notifications.sms ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
@@ -163,14 +151,12 @@ const Settings = ({ user, onLogout }) => {
                 </div>
                 <button
                   onClick={() => handlePreferenceChange('darkMode', !preferences.darkMode)}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    preferences.darkMode ? 'bg-red-600' : 'bg-gray-200'
-                  }`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${preferences.darkMode ? 'bg-red-600' : 'bg-gray-200'
+                    }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                      preferences.darkMode ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${preferences.darkMode ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>
