@@ -1,18 +1,15 @@
 import React, { useState, Suspense, lazy, startTransition } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
-// Constants
-const USER_TYPES = {
-  CUSTOMER: 'customer',
-  ADMIN: 'admin'
-};
+import { useAuth } from './lib/auth.jsx';
+import { USER_TYPES } from './utils/users.js';
+import { LoaderCircle } from 'lucide-react';
+import { useEffect } from 'react';
 
 // Lazy-loaded components
 const Login = lazy(() => import('./components/auth/Login'));
 const SignUp = lazy(() => import('./components/auth/SignUp'));
 const UserDashboard = lazy(() => import('./components/user/UserDashboard'));
 const AdminDashboard = lazy(() => import('./components/admin/AdminDashboard'));
-const RestaurantDetail = lazy(() => import('./components/user/RestaurantDetail'));
 const Cart = lazy(() => import('./components/user/Cart'));
 const OrderTracking = lazy(() => import('./components/user/OrderTracking'));
 const Profile = lazy(() => import('./components/user/Profile'));
@@ -23,7 +20,6 @@ const Wallet = lazy(() => import('./components/user/Wallet'));
 const Help = lazy(() => import('./components/user/Help'));
 const Search = lazy(() => import('./components/user/Search'));
 const Notifications = lazy(() => import('./components/user/Notifications'));
-const Loyalty = lazy(() => import('./components/user/Loyalty'));
 const Reviews = lazy(() => import('./components/user/Reviews'));
 // const NotFound = lazy(() => import('./components/common/NotFound'));
 const Header = lazy(() => import('./components/user/Header'));
@@ -37,25 +33,11 @@ const ProtectedRoute = ({ user, userType, adminOnly = false, children }) => {
 };
 
 function App() {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
-  const [userType, setUserType] = useState(USER_TYPES.CUSTOMER);
-
-  const handleLogin = (userData, type) => {
-    startTransition(() => {
-      setUser(userData);
-      setUserType(type);
-      localStorage.setItem('user', JSON.stringify(userData));
-    });
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setUserType(USER_TYPES.CUSTOMER);
-    localStorage.removeItem('user');
-  };
+  const { user, login, logout, loading, register } = useAuth();
+  const userType = user && user.role ? user.role : USER_TYPES.CUSTOMER;
+  if (loading) {
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
 
   return (
     <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -63,37 +45,33 @@ function App() {
         {/* Conditionally render appropriate header */}
         {user && (
           userType === USER_TYPES.ADMIN ? (
-            <AdminHeader user={user} onLogout={handleLogout} />
+            <AdminHeader user={user} onLogout={logout} />
           ) : (
-            <Header user={user} onLogout={handleLogout} />
+            <Header user={user} onLogout={logout} />
           )
         )}
 
-        <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+        <Suspense fallback={<div className="flex justify-center items-center h-screen "><LoaderCircle className="animate-spin" /></div>}>
           <Routes>
             {/* Auth Routes */}
             <Route path="/login" element={
               user ? (
                 <Navigate to={userType === USER_TYPES.ADMIN ? '/admin' : '/dashboard'} />
               ) : (
-                <Login onLogin={handleLogin} />
+                <Login onLogin={login} />
               )
             } />
             <Route path="/signup" element={
-              user ? <Navigate to="/dashboard" /> : <SignUp onSignUp={handleLogin} />
+              user ? <Navigate to="/dashboard" /> : <SignUp register={register} />
             } />
 
             {/* Customer Routes */}
             <Route path="/dashboard" element={
-              <ProtectedRoute user={user} userType={userType}>
-                <UserDashboard user={user} />
-              </ProtectedRoute>
+              // <ProtectedRoute user={user} userType={userType}>
+              <UserDashboard user={user} />
+              // </ProtectedRoute>
             } />
-            <Route path="/restaurant/:id" element={
-              <ProtectedRoute user={user} userType={userType}>
-                <RestaurantDetail user={user} />
-              </ProtectedRoute>
-            } />
+
             <Route path="/cart" element={
               <ProtectedRoute user={user} userType={userType}>
                 <Cart user={user} />
@@ -144,11 +122,6 @@ function App() {
                 <Notifications user={user} />
               </ProtectedRoute>
             } />
-            <Route path="/loyalty" element={
-              <ProtectedRoute user={user} userType={userType}>
-                <Loyalty user={user} />
-              </ProtectedRoute>
-            } />
             <Route path="/reviews" element={
               <ProtectedRoute user={user} userType={userType}>
                 <Reviews user={user} />
@@ -164,7 +137,7 @@ function App() {
 
             {/* Default and Catch-all Routes */}
             <Route path="/" element={<Navigate to="/login" />} />
-            
+
           </Routes>
         </Suspense>
       </div>
